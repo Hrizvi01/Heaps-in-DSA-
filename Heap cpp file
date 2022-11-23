@@ -1,0 +1,134 @@
+#include <iostream>
+using namespace std;
+class maxheap
+{
+    int *arr = 0;
+    int capacity = 0;
+    int size = 0;
+    bool checkmaxheap(int *t, int i)
+    {
+        bool flag = true;
+        if (i <= size)
+        {
+            if (flag = true)
+            {
+                int a = i / 2;
+                checkmaxheap(t, i + 1);
+                if (t[a] > t[i])
+                {
+
+                    flag = true;
+                }
+                else
+                {
+                    flag = false;
+                }
+            }
+        }
+        return flag;
+    }
+    void heapify(int i)
+    {
+        int parent = i / 2;
+
+        if (arr[i] > arr[parent])
+            swap(arr[i], arr[parent]);
+    }
+
+public:
+    maxheap()
+    {
+        arr = nullptr;
+    }
+    maxheap(int cap = 0)
+    {
+
+        capacity = cap;
+        arr = new int[capacity];
+        arr[0] = -1;
+    }
+    void heapify()
+    {
+        for (int i = 2; i < size + 1; i++)
+            heapify(i);
+    }
+    int getparent(int i)
+    {
+        return i / 2;
+    }
+    bool checkmaxheap()
+    {
+        return checkmaxheap(arr, 2);
+    }
+    void insert(int val)
+    {
+        if (size < capacity)
+        {
+            size++;
+            arr[size] = val;
+        }
+        else if (size == capacity)
+        {
+            capacity = capacity * 2;
+            int *temp = new int[capacity];
+            for (int i = 0; i < size + 1; i++)
+            {
+                temp[i] = arr[i];
+            }
+            delete arr;
+            arr = nullptr;
+            arr = new int[capacity];
+            for (int i = 0; i < size + 1; i++)
+            {
+                arr[i] = temp[i];
+            }
+            delete temp;
+            temp = nullptr;
+            size++;
+            arr[size] = val;
+        }
+    }
+    void heapsort()
+    {
+        int s = size;
+
+        for (int i = size; i >= 1; i--)
+        {
+            swap(arr[1], arr[i]);
+            size--;
+            heapify();
+        }
+        size = s;
+    }
+    void print()
+    {
+        for (int i = 1; i < size + 1; i++)
+        {
+            cout << arr[i] << " ";
+        }
+        cout << "\n";
+    }
+};
+int main()
+{
+    maxheap h(5);
+    h.insert(90);
+    h.insert(10);
+    h.insert(7);
+    h.insert(12);
+    h.insert(35);
+    h.insert(2);
+    h.insert(3);
+    h.insert(7);
+    h.insert(15);
+    h.insert(30);
+    h.insert(10);
+
+    h.print();
+    cout << h.checkmaxheap() << "\n";
+    h.heapify();
+    h.print();
+    cout << h.checkmaxheap() << "\n";
+    h.heapsort();
+    h.print();
+}
